@@ -32,7 +32,8 @@ function mainOptions() {
         "View All Employees",
         "Add Department",
         "Add Role",
-        "Add Employee"
+        "Add Employee",
+        "Exit"
       ]
     }).then(function(choice) {
       switch (choice.pickOption) {
@@ -58,6 +59,10 @@ function mainOptions() {
 
         case "Add Employee":
           addEmployee();
+          break;
+
+        case "Exit":
+          Exit();
           break;
       }
     });
@@ -106,21 +111,82 @@ function addDepartment() {
     })
 }
 
-function addDepartment() {
+function addRole() {
   inquirer
     .prompt([
       {
+        name: "role",
+        type: "input",
+        message: "What is the title of the role you would like to add?"
+      },
+      {
+        name: "salary",
+        type: "input",
+        message: "What is the salary of the role you would like to add?"
+      },
+      {
         name: "department",
         type: "input",
-        message: "What is the name of the department you would like to add?"
+        message: "What is the department id for the role you would like to add in?",
       }
     ]).then(function(answer) {
-      connection.query("INSERT INTO tracker_department SET ?", { name: answer.department }, function(err) {
-          if (err) throw err;
-          console.log("You have sucessfully added the department " + answer.department);
-          console.table(answer);
-          mainOptions();
-        }
-      )
+        connection.query("INSERT INTO tracker_role (title, salary, department_id) VALUES (?, ?, ?)", 
+        [ 
+          answer.role,
+          answer.salary,
+          answer.department 
+        ], 
+        function(err) {
+            if (err) throw err;
+            console.log("You have sucessfully added the role " + answer.role);
+            console.table(answer);
+            mainOptions();
+          }
+        )  
     })
+}
+
+function addEmployee() {
+  inquirer
+    .prompt([
+      {
+        name: "first_name",
+        type: "input",
+        message: "What is the first name of the employee you would like to add?"
+      },
+      {
+        name: "last_name",
+        type: "input",
+        message: "What is the last name of the employee you would like to add?"
+      },
+      {
+        name: "role",
+        type: "input",
+        message: "What is the role id for the employee you would like to add in?",
+      },
+      {
+        name: "manager",
+        type: "input",
+        message: "What is the manager id for the employee you would like to add in?",
+      }
+    ]).then(function(answer) {
+        connection.query("INSERT INTO tracker_employee (first_name, last_name, role_id, manager_id) VALUES (?, ?, ?, ?)", 
+        [ 
+          answer.first_name,
+          answer.last_name,
+          answer.role,
+          answer.manager 
+        ], 
+        function(err) {
+            if (err) throw err;
+            console.log("You have sucessfully added the employee " + answer.first_name + " " + answer.last_name);
+            console.table(answer);
+            mainOptions();
+          }
+        )  
+    })
+}
+
+function Exit() {
+  connection.end();
 }
