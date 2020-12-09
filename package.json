@@ -1,11 +1,11 @@
 {
-  "name": "ice-cream-db-read-data",
+  "name": "tracker-read-data",
   "version": "1.0.0",
-  "description": "",
-  "main": "iceCreamReadData.js",
+  "description": "Employee tracker",
+  "main": "",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node tracker"
+    "start": "node trackerReadData.js"
   },
   "keywords": [],
   "author": "",

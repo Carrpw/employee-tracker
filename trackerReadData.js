@@ -12,12 +12,12 @@ var connection = mysql.createConnection({
 
   // Your password
   password: "",
-  database: "tracker_DB"
+  database: "tracker_db"
 });
 
 connection.connect(function(err) {
   if (err) throw err;
-  employeeTracker();
+  mainOptions();
 });
 
 function mainOptions() {
@@ -27,17 +27,16 @@ function mainOptions() {
       type: "list",
       message: "What would you like to do?",
       choices: [
-        "View All Departmens",
+        "View All Departments",
         "View All Roles",
         "View All Employees",
         "Add Department",
         "Add Role",
         "Add Employee"
       ]
-    })
-    .then(function(choice) {
+    }).then(function(choice) {
       switch (choice.pickOption) {
-        case "View All Departmens":
+        case "View All Departments":
           viewDepartments();
           break;
 
@@ -49,7 +48,7 @@ function mainOptions() {
           viewEmployees();
           break;
 
-        case "Add Depar(tment":
+        case "Add Department":
           addDepartment();
           break;
 
@@ -64,11 +63,64 @@ function mainOptions() {
     });
 }
 
+function viewDepartments() {
+  connection.query("SELECT * FROM tracker_department", function(err, res) {
+    console.log("Departments recorded in Tracker");
+    console.table(res);
+    mainOptions();
+  })
+}
+
+function viewRoles() {
+  connection.query("SELECT * FROM tracker_role", function(err, res) {
+    console.log("Roles recorded in Tracker");
+    console.table(res);
+    mainOptions();
+  })
+}
+
+function viewEmployees() {
+  connection.query("SELECT * FROM tracker_employee", function(err, res) {
+    console.log("Employees recorded in Tracker");
+    console.table(res);
+    mainOptions();
+  })
+}
+
 function addDepartment() {
   inquirer
     .prompt([
       {
-        
+        name: "department",
+        type: "input",
+        message: "What is the name of the department you would like to add?"
       }
-    ])
+    ]).then(function(answer) {
+      connection.query("INSERT INTO tracker_department SET ?", { name: answer.department }, function(err) {
+          if (err) throw err;
+          console.log("You have sucessfully added the department " + answer.department);
+          console.table(answer);
+          mainOptions();
+        }
+      )
+    })
+}
+
+function addDepartment() {
+  inquirer
+    .prompt([
+      {
+        name: "department",
+        type: "input",
+        message: "What is the name of the department you would like to add?"
+      }
+    ]).then(function(answer) {
+      connection.query("INSERT INTO tracker_department SET ?", { name: answer.department }, function(err) {
+          if (err) throw err;
+          console.log("You have sucessfully added the department " + answer.department);
+          console.table(answer);
+          mainOptions();
+        }
+      )
+    })
 }
