@@ -1,5 +1,5 @@
 const inquirer = require("inquirer");
-var mysql = require("mysql");
+const mysql = require("mysql");
 
 var connection = mysql.createConnection({
   host: "localhost",
@@ -190,3 +190,5 @@ function addEmployee() {
 function Exit() {
   connection.end();
 }
+
+// "FROM tracker_department INNER JOIN tracker_role ON (tracker_department.id = tracker_role.department_id";

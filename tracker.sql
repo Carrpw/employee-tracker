@@ -29,7 +29,7 @@ CREATE TABLE tracker_role (
 );
 
 CREATE TABLE tracker_employee (
-  --Create a numeric column called "id" which will automatically increment its default value as we create new rows.
+  -- Create a numeric column called "id" which will automatically increment its default value as we create new rows.
   id INTEGER AUTO_INCREMENT NOT NULL,
   -- Create a string column called "first_name"
   first_name VARCHAR(30) NOT NULL,
@@ -41,11 +41,12 @@ CREATE TABLE tracker_employee (
   manager_id INTEGER NULL,
   -- Set the id as this table's primary key
   PRIMARY KEY(id)
-)
+);
 
 -- Create new example rows
 INSERT INTO tracker_department(name)
-VALUES ("Management"), ("Legal"), 
+VALUES ("Management"), 
+("Legal"), 
 ("Software Engineering"), 
 ("Marketing"), 
 ("Finance"), 
